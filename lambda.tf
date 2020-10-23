@@ -2,19 +2,15 @@ data "http" "src" {
   url = "https://raw.githubusercontent.com/cloudreach/aws-lambda-es-cleanup/master/es_cleanup.py"
 }
 
-resource "local_file" "src_local" {
-  content  = "${data.http.src.body}"
-  filename = "${path.module}/es-cleanup.py"
-}
-
-
 data "archive_file" "es_cleanup_lambda" {
-  type        = "zip"
-  source_file = "${path.module}/es-cleanup.py"
+  type = "zip"
+
+  source {
+    content  = "${data.http.src.body}"
+    filename = "es-cleanup.py"
+  }
+
   output_path = "${path.module}/es-cleanup.zip"
-  depends_on = [
-    local_file.src_local,
-  ]
 }
 
 locals {
