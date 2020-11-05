@@ -6,7 +6,7 @@ data "archive_file" "es_cleanup_lambda" {
   type = "zip"
 
   source {
-    content  = "${data.http.src.body}"
+    content  = data.http.src.body
     filename = "es-cleanup.py"
   }
 
